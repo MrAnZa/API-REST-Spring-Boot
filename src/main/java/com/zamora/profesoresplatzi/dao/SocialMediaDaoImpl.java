@@ -2,9 +2,15 @@ package com.zamora.profesoresplatzi.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
+
 import com.zamora.profesoresplatzi.model.SocialMedia;
 import com.zamora.profesoresplatzi.model.TeacherSocialMedia;
 
+@Repository
+@Transactional
 public class SocialMediaDaoImpl extends AbstractSession implements SocialMediaDao {
 
 	@Override

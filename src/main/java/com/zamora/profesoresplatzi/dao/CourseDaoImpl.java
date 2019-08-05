@@ -2,8 +2,14 @@ package com.zamora.profesoresplatzi.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
+
 import com.zamora.profesoresplatzi.model.Course;
 
+@Repository
+@Transactional
 public class CourseDaoImpl extends AbstractSession implements CourseDao{
 
 	@Override

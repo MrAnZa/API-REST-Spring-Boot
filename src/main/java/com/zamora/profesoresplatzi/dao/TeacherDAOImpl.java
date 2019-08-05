@@ -3,10 +3,15 @@ package com.zamora.profesoresplatzi.dao;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
+
 import com.zamora.profesoresplatzi.model.Teacher;
 import com.zamora.profesoresplatzi.model.TeacherSocialMedia;
 
-
+@Repository
+@Transactional
 public class TeacherDAOImpl extends AbstractSession implements TeacherDAO{
 
 
@@ -30,8 +35,8 @@ public class TeacherDAOImpl extends AbstractSession implements TeacherDAO{
 				i.remove();
 				getSession().delete(teacherSocialMedia);
 			}
-			teacher.getTeachersocialmedias()
-.clear();			getSession().delete(teacher);
+			teacher.getTeachersocialmedias().clear();
+			getSession().delete(teacher);
 		}
 	}
 
