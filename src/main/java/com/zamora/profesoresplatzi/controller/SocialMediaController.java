@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.zamora.profesoresplatzi.model.SocialMedia;
 import com.zamora.profesoresplatzi.service.SocialMediaService;
+import com.zamora.profesoresplatzi.util.CustomErrorType;
 
 @Controller
 @RequestMapping("/v1")
@@ -42,7 +43,7 @@ public class SocialMediaController {
 	public ResponseEntity<SocialMedia>	getSocialMediaById(@PathVariable("id") Long idSocialMedia){
 		
 		if(idSocialMedia == null || idSocialMedia <=0) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("idSocialMedia is required"),HttpStatus.CONFLICT); 
 		}
 		
 		SocialMedia socialMedia = _socialMediaService.FindById(idSocialMedia);
@@ -59,7 +60,7 @@ public class SocialMediaController {
 	public ResponseEntity<?> createSocialMedia(@RequestBody SocialMedia socialMedia, UriComponentsBuilder uriComponentBuilder){
 		if(socialMedia.getName().equals(null) || socialMedia.getName().isEmpty()) {
 			
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("SocialMedia name is required"),HttpStatus.CONFLICT);
 		}
 		if(_socialMediaService.FindByName(socialMedia.getName())!= null) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -79,7 +80,7 @@ public class SocialMediaController {
 		SocialMedia currentSocialMedia = _socialMediaService.FindById(idSocialMedia);
 		
 		if(idSocialMedia == null || idSocialMedia <=0) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("idSocialMedia is required"),HttpStatus.CONFLICT);
 		}
 		
 		if(currentSocialMedia == null) {
@@ -96,7 +97,7 @@ public class SocialMediaController {
 	public ResponseEntity<?> deleteSocialMedia(@PathVariable("id") Long idSocialMedia){
 		
 		if(idSocialMedia == null || idSocialMedia <=0) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(new CustomErrorType("idSocialMedia is required"),HttpStatus.CONFLICT);
 		}
 		SocialMedia socialMedia = _socialMediaService.FindById(idSocialMedia);
 		
