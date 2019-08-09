@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="course")
 public class Course implements Serializable{
@@ -21,7 +23,8 @@ public class Course implements Serializable{
 	
 	@ManyToOne(optional=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="id_teacher")
-	private Teacher idTeacher;
+	@JsonIgnore
+	private Teacher teacher;
 	
 	@Column(name="name")
 	private String name;
@@ -50,11 +53,11 @@ public class Course implements Serializable{
 	public void setIdCourse(Long idCourse) {
 		this.idCourse = idCourse;
 	}
-	public Teacher getIdTeacher() {
-		return idTeacher;
+	public Teacher getTeacher() {
+		return teacher;
 	}
-	public void setIdTeacher(Teacher idTeacher) {
-		this.idTeacher = idTeacher;
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 	public String getName() {
 		return name;
