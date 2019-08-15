@@ -155,10 +155,10 @@ public class TeacherController {
 			 String dateName = dateformat.format(date);
 			 
 			 String fileName = String.valueOf(idTeacher) + "-pictureTeacher-"+ dateName + "." + multipartfile.getContentType().split("/")[1];
-			 teacher.setAvatar(fileName);
+			 teacher.setAvatar(TEACHER_UPLOADED_FOLDER + fileName);
 			 
 			 byte[] bytes = multipartfile.getBytes();
-			 Path path = Paths.get(TEACHER_UPLOADED_FOLDER+ fileName);
+			 Path path = Paths.get(TEACHER_UPLOADED_FOLDER + fileName);
 			 Files.write(path, bytes);
 			 
 			 _teacherService.updateTeacher(teacher);
@@ -170,4 +170,34 @@ public class TeacherController {
 		}
 		
 	} 
+	//GET IMAGE
+	@RequestMapping(value="/teachers/{id_teacher}/images",method=RequestMethod.GET)
+	public ResponseEntity<byte[]> getTeacherImage(@PathVariable("id_teacher") Long idTeacher){
+		
+		if(idTeacher==null) {
+		return new ResponseEntity(new CustomErrorType("Please set id_teacher"),HttpStatus.CONFLICT);
+		}
+		
+		Teacher teacher= _teacherService.findTeacherById(idTeacher);
+		
+		if(teacher == null) {
+			return new ResponseEntity(new CustomErrorType("Teacher With id: "+ idTeacher + " Not Found"),HttpStatus.NOT_FOUND);
+		}
+		try {
+			String fileName = teacher.getAvatar();
+			Path path = Paths.get(fileName);
+			File f = path.toFile();
+			if(!f.exists()) {
+				return new ResponseEntity(new CustomErrorType("Image Not Found"),HttpStatus.NOT_FOUND);
+			}
+			byte[] image= Files.readAllBytes(path);
+			
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new CustomErrorType("Error to show image"),HttpStatus.CONFLICT);
+		}
+	}
+	
 }
