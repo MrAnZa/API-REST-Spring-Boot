@@ -57,9 +57,15 @@ public class SocialMediaServiceImpl implements SocialMediaService {
 	}
 
 	@Override
-	public TeacherSocialMedia findSocialMediaByIdAndName(Long IdSocialMedia, String nickname) {
+	public TeacherSocialMedia findSocialMediaByIdAndNickname(Long IdSocialMedia, String nickname) {
 		// TODO Auto-generated method stub
-		return _socialMediaDao.findSocialMediaByIdAndName(IdSocialMedia, nickname);
+		return _socialMediaDao.findSocialMediaByIdAndNickname(IdSocialMedia, nickname);
+	}
+
+	@Override
+	public TeacherSocialMedia findSocialMediaByIdTeacherAndIdSocialMedia(Long idTeacher, Long idSocialMedia) {
+		// TODO Auto-generated method stub
+		return _socialMediaDao.findSocialMediaByIdTeacherAndIdSocialMedia(idTeacher, idSocialMedia);
 	}
 
 }

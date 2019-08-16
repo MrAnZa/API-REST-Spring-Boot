@@ -19,5 +19,7 @@ public interface SocialMediaService {
 	
 	SocialMedia FindByName(String name);
 	
-	TeacherSocialMedia findSocialMediaByIdAndName(Long IdSocialMedia, String nickname);
+	TeacherSocialMedia findSocialMediaByIdAndNickname(Long IdSocialMedia, String nickname);
+	
+	TeacherSocialMedia findSocialMediaByIdTeacherAndIdSocialMedia(Long idTeacher, Long idSocialMedia);
 }
