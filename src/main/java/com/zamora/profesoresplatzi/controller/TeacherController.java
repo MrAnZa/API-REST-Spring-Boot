@@ -141,7 +141,7 @@ public class TeacherController {
 			return new ResponseEntity(new CustomErrorType("Teacher With id: "+ idTeacher + " Not Found"),HttpStatus.NOT_FOUND);
 		}
 		
-		if(teacher.getAvatar().isEmpty() || teacher.getAvatar() != null) {
+		if(!teacher.getAvatar().isEmpty() || teacher.getAvatar() != null) {
 			String filename = teacher.getAvatar();
 			Path path = Paths.get(filename);
 			File f = path.toFile();
@@ -198,6 +198,35 @@ public class TeacherController {
 			e.printStackTrace();
 			return new ResponseEntity(new CustomErrorType("Error to show image"),HttpStatus.CONFLICT);
 		}
+	}
+	//DELETE
+	@RequestMapping(value="/teachers/{id_teacher}/images",method=RequestMethod.DELETE, headers = "Accept=application/json")
+	public ResponseEntity<?> deleteTeacherImage(@PathVariable("id_teacher") Long idTeacher){
+		if(idTeacher==null) {
+			return new ResponseEntity(new CustomErrorType("Please set id_teacher"),HttpStatus.CONFLICT);
+			}
+			
+			Teacher teacher= _teacherService.findTeacherById(idTeacher);
+			
+			if(teacher == null) {
+				return new ResponseEntity(new CustomErrorType("Teacher With id: "+ idTeacher + " Not Found"),HttpStatus.NOT_FOUND);
+			}
+			
+			if(teacher.getAvatar().isEmpty() || teacher.getAvatar() == null){
+				return new ResponseEntity(new CustomErrorType("This teacher doesn`t have image assigned"),HttpStatus.NOT_FOUND);
+			}
+			
+			String fileName = teacher.getAvatar();
+			Path path = Paths.get(fileName);
+			File file=path.toFile();
+			if(file.exists()) {
+				file.delete();
+			}
+			
+			teacher.setAvatar("");
+			_teacherService.updateTeacher(teacher);
+			
+			return new ResponseEntity<Teacher>(HttpStatus.NO_CONTENT);
 	}
 	
 }
